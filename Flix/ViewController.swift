@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import AlamofireImage
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+      
+    @IBOutlet weak var tableView: UITableView!
+    
     var movies = [[String:Any]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = 134
+        
         print("Loaded")
         
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
@@ -28,6 +36,7 @@ class ViewController: UIViewController {
 
             self.movies = dataDictionary["results"] as! [[String:Any]]
             
+            self.tableView.reloadData()
             
             print(dataDictionary)
             
@@ -41,6 +50,28 @@ class ViewController: UIViewController {
         
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return movies.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as! MovieCell
+
+        let movie = movies[indexPath.row]
+        let title = movie["title"] as! String
+        let synopsis = movie["overview"] as! String
+        
+        cell.titleLabel.text = title
+        cell.synopsisLabel.text = synopsis
+        
+        let baseUrl = "https://image.tmdb.org/t/p/w185"
+        let posterPath = movie["poster_path"] as! String
+        let posterUrl = URL(string: baseUrl + posterPath)
+        
+        cell.posterView.af_setImage(withURL: posterUrl!)
+        
+        return cell
+    }
 
 }
 
