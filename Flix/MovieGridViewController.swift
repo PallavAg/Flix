@@ -70,10 +70,10 @@ class MovieGridViewController: UIViewController, UICollectionViewDataSource, UIC
         
        }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
-    {
-        return CGSize(width: 178.0, height: 280)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+//    {
+//        return CGSize(width: 178.0, height: 280)
+//    }
     /*
     // MARK: - Navigation
 
